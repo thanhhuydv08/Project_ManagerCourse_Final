@@ -1,0 +1,128 @@
+@- combox :
+
+ cách 4 :  hãy dùng 1 class trả về 1 combox đã addItem xong tại from combox gán giá trị comboBox = scontroller.ReturnValuesCourseToJcombobox();// khong duoc gọi đối tượng comboBox = new JComboBox();
+1-không nên comboBox.setModel(new DefaultComboBoxModel(lstComb)); để add vào combo vì không lấy ra được
+2-ưu tiên addItem từ class kết nối csdl theo dạng addItem(x.getString("cột trong data"))
+3-muốn dùng các item tại comb thì không khai báo đối tượng lần nữa chỉ sử dụng biến đối tượng.
+4- comb là 1 đối tượng 
+5- ko khai báo hay imple cái nào hết
+6- xuất 1 item nào đó khi chọn comboBox_1.getSelectedItem().toString()
+7- xóa hết Item comboBox_1.removeAllItems(); or remove 1 cái nào đó
+8- JComboBox<String> jcbo = new JComboBox<>(countryList); add mootj mang cobox kieu string
+9- Lenh lay gia tri 1 list trong cobox  StudentEntity objStudent = (StudentEntity)cboStudent.getItemAt(cboStudent.getSelectedIndex());
+								txtRollNo.setText("" + objStudent.getiRollNo());// xong hien thi len texfiel
+				txtFullName.setText(objStudent.getsFullName());
+			txtMark.setText("" + objStudent.getdMark());
+ note : muốn thực hiện cái này thì cobbox truyền vào là một mảng sinh viên nhé , và phần to string chỉ cho hiển thì phần mà cobbox muốn hiển thị thôi
+ 	phần này hay , cách khác cho cobbox string cho dễ làm			
+10- Cách 2 : StudentEntity objStudent = (StudentEntity) cboStudent.getSelectedItem(); // cách 2 này vẫn lấy được từng đối tượng đã chọn
+@ Table 
+1- xóa 1 row khi bôi chuột :
+String id =(String) table.getValueAt(table.getSelectedRow(), 0);
+System.out.println(id);
+dtm.removeRow(table.getSelectedRow()); trong đó dtm là 1 DefaulmodelTable khai báo trên class chính
+
+
+@ checkbox : là 1 string ko phải là đối tượng 
+1- phai imple ItemLicense để tạo sự kiện clcik chuột
+2- chỉ chọn 1 trong 2 thì tạo group private final ButtonGroup buttonGroup = new ButtonGroup();buttonGroup.add(rdnam);
+3- tạo sự kiện click trong khởi tạo checkb chckbxNam.addItemListener(this);chckbxNu.addItemListener(this);
+
+@ không thể tạo 1 class panel (không frame) rồi tại hàm chính có 1 frame gọi đến class này ...===> vẫn hiển thị nhưng không truy xuất dữ liệu đuwoc
+
+
+@ jframe : khi extend cha này mới có setJmenubar, setDefaulOption....
+đắt 1 trong nhều frame : setD.....(Depo....)   //addCourseView.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+ muốn tạo nút thoát thì trong sự kiên setvisi...(false)
+mainForm.setLocationRelativeTo(null); //main frame hiện ở giữa màn hình
+subForm.setLocationRelativeTo(mainForm); //subForm hiện giữa main form
+@jmenubar -> jmenu->jmenuitem
+  
+package object_orient_programe.baitapimic_cuoikhoa.system_view;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+
+public class CreateJmenuBar extends JFrame {
+	private JMenuBar menubar;
+	private JMenu fileMenu;
+	private JMenuItem openItem;
+	private JMenuItem exitItem;
+	private JMenu courts;
+	private JMenuItem addItem;
+	private JMenuItem removeItem;
+	private JPanel panel;
+	public static void main(String[] args) {
+		CreateJmenuBar jframe = new CreateJmenuBar();
+		jframe.setVisible(true);
+	}
+	public CreateJmenuBar() {
+		panel = new JPanel();
+		setTitle("jmenubar");
+		setSize(600, 350);// không dùng lệnh này thì ding setbounds (x,y,w,h) / tọa độ định vị x=0, y=0 là góc trái trên cùng màng hinh
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+           menubar = new JMenuBar();
+           fileMenu= new JMenu("File");
+           openItem = new JMenuItem("Open");
+           exitItem = new JMenuItem("Exit");
+           fileMenu.add(openItem);
+           fileMenu.add(exitItem);
+           menubar.add(fileMenu);
+           this.setJMenuBar(menubar);
+	}
+}
+
+@ thông báo xác nhận : 
+
+				int checktb= JOptionPane.showConfirmDialog(rootPane, "Bạn có muốn thoát không ", "Thông báo", JOptionPane.YES_NO_OPTION);
+				if(checktb==0) {
+				System.exit(0);}
+
+
+@ lệnh bắt sự kiến xóa thông qua controler : rất hay trong scoler va frmMIx của bào tập
+public sController(Students studentsModel,Course coursesModel ) {
+	this.studentsModel = studentsModel;
+	coursesModel.DeleteValuesDatabase(studentsModel);// KHÔNG ĐƯỢC THIS.coursesModel NHÉ
+
+}
+
+@ kiểm tra jtable  có chọn rows hay không if(table.getSelectedRow()>-1)
+
+@  xóa cột chứa khóa chính trong sql sẽ tự động cột mang khóa ngoại trong bảng con
+ALTER TABLE bang_con
+ADD CONSTRAINT fk_ten
+ FOREIGN KEY (cot_con1, cot_con2, … cot_con_n) 
+ REFERENCES bang_me (cot_me1, cot_me2, … cot_me_n)
+ ON DELETE CASCADE;
+ 
+ 
+ @ hay sai : kiểm tra thông tin điền vào có nhập bị trùng không hay bbij sai là ko break; nếu trùng , chu ý nếu khai báo biến private trên clss phải gán biến trong if va else để không bị đè
+void CheckFielsExistOnDatabase() {
+	ControllerPullDatabaseToJtable pull = new ControllerPullDatabaseToJtable();
+	int index =0;
+	Object[][] objCheck = null;
+	objCheck = pull.PullDatabase();
+	for(int i=0; i<objCheck.length;i++) {
+		if((frmStudentFrame.GetSoCmt().equals(objCheck[i][4].toString()))&&(frmStudentFrame.GetCombobox().equals(objCheck[i][3].toString()))) {
+			//	if(frmStudentFrame.GetHoVaTen().equals(objCheck[i][1].toString())){
+			CheckSocmtAndTenLop=true;
+			break;// khi mà kiểm tra có trong mảng liền break ra vòng lặp ngay lập tức
+		}	else {CheckSocmtAndTenLop=false; 
+		if(frmStudentFrame.GetSoCmt().equals(objCheck[i][4].toString())) {
+			index=i;// nếu trùng nhưng khác tên lớp thì có thể thêm sinh viên nhưng phải so sánh tên sinh viên xem có trùng không nếu ko trùng 
+			// thì nhập tên đó sai -> không add yêu cầu nhập lại
+			// không break chỗ này
+		}
+
+		}
+	}
+	System.out.println(index);
+	if(frmStudentFrame.GetHoVaTen().equals(objCheck[index][1].toString())){
+		CheckSocmtAndTenSinhVien = true;
+	}else {CheckSocmtAndTenSinhVien =false;}
+	System.out.println(CheckSocmtAndTenSinhVien);
+}
+

@@ -1,0 +1,30 @@
+
+==== mô hình MVC trong java model - view - cotroller
+
+-hàm chính MVC thực hiện gọi form AddStudentAndMainForm trước , khi hiển thị ok thì tại jmenubar -> gọi đến các item 
+AddCourts...-> nhảy đến form (addCourtsView) nếu ko click item AddCourts thì thực hiện trong jtable hiện lên để thêm , sủa , xóa sinh viên
+-> nếu thêm sinh viên --> nhảy đến form thêm sv, hoăc nhảy đến form update (tôi tích hơp form thêm sv cùng với form update để dể ql)
+- còn xóa ds ta thực hiện remove trực tiếp trên bảng
+
+
+- sau khi da luu ok khoa hoc vao data
+-- tạo frm sinh vien de nhap sv vao -> rieng muon lay duoc o checkbox thi ta them implements ItemListener tại class chính
+khi đó sẽ cho ta 1 mehthod @override bên dưới
+@Override
+public void itemStateChanged(ItemEvent arg0) {
+	if(e.getItemSelectable()==chckbxNam) {
+		chckChek=chckbxNam.getText();
+	}else {chckChek=chckbxNu.getText();}
+	
+}
+     + trong đó phải khai báo biến chckChek trong class chính để khi click nó sẽ thực thi lệnh và biến này sẽ mang gia tri hàm tính toán là Nam hay Nữ
+ - tiếp đến truyền ds khóa học vào combobox ( có 2 cách comb theo string hoặc combo theo 1 đối tượng nào đó  nếu đối tượng bắt buộc đối tượng đó có giá trị trr vè get....)
+   +
+   tai control : tao 2 class bắt sự kiện khi click thêm sv và khóa học rồi add lên database luôn.
+   // mọi câu chuyên các giá trị từ data đến view phải thông qua control để xử lý
+   
+   -- tiếp đến truyền ds sinh viên lên table
+   
+   
+   
+   
